@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import Table from 'react-bootstrap/Table'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Inventory () {
 
@@ -16,13 +18,27 @@ function Inventory () {
 
     <>
       <h2>Inventory List</h2>
-      <ul>
-        {inventory.map((item, index) => (
-          <li key={index}>
-            {item.item_name}, {item.description}, {item.quantity}
-          </li>
-        ))}
-      </ul>
+
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Description</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {inventory.map((item, index) => (
+            <tr key={index}>
+              <td>{item.item_name}</td>
+              <td>{item.description}</td>
+              <td>{item.quantity}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+
     </>
   )
 
