@@ -1,4 +1,6 @@
 // Update with your config settings.
+require('dotenv').config()
+const connectionString = process.end.DB_CONNECTION_STRING;
 
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
@@ -7,13 +9,7 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: {
-      host: '127.0.0.1',
-      password: 'docker',
-      user: 'postgres',
-      port: 5432,
-      database: 'inventory_management'
-    }
+    connection: connectionString
   },
 
   staging: {
@@ -52,4 +48,4 @@ module.exports = {
 
 
 // Connection string
-// `postgres://postgres:docker@localhost/z-prefix-app`
+// `postgres://postgres:docker@localhost:5432/z-prefix-app`
