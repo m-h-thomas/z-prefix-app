@@ -8,7 +8,7 @@ function Home() {
       <h1>Inventory Management System</h1>
 
       <div className="buttonContainer">
-        <button>Login</button>
+        <button onClick={() => navigate('/login')}>Login</button>
         <button onClick={() => navigate('/inventory')}>
           View Inventory without logging in
         </button>

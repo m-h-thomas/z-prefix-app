@@ -1,30 +1,39 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { useAuth } from './AuthContext'; // Assuming you have a context for the authenticated user
 
 function AddItem () {
-
   const navigate = useNavigate();
-  const [ userId, setUserId ] = useState();
-  const [ itemName, setItemName ] = useState("");
-  const [ description, setDescription ] = useState("");
-  const [ quantity, setQuantity ] = useState();
+  const { user } = useAuth();  // Get the logged-in user from context
+  const [itemName, setItemName] = useState("");
+  const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState("");
 
+  // If no user is logged in, redirect the user or show an error
+  if (!user) {
+    navigate("/login");
+    return null; // Or show an error message
+  }
 
   const handleSubmit = async (event) => {
-
     event.preventDefault();
 
-    const itemData = {
-      user_id: userId,
-      item_name: itemName,
-      description: description.trim(),
-      quantity: quantity
+    // Validate quantity
+    if (!quantity || quantity <= 0) {
+      alert("Please enter a valid quantity.");
+      return;
     }
 
-    try {
+    const itemData = {
+      user_id: user.id,  // Use logged-in user's ID
+      item_name: itemName,
+      description: description.trim(),
+      quantity: Number(quantity),  // Ensure quantity is a number
+    };
 
+    try {
       const response = await fetch("http://localhost:8081/items", {
         method: "POST",
         headers: {
@@ -37,25 +46,15 @@ function AddItem () {
         throw new Error("Failed to add item to inventory.");
       }
 
-      navigate(`/inventory`)
+      navigate(`/user_inventory`);
     } catch (error) {
       console.error("Error adding item:", error);
     }
   };
 
   return (
-
     <>
       <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="userId">
-          <Form.Label>User Id</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter user ID"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-          />
-        </Form.Group>
         <Form.Group className="mb-3" controlId="itemName">
           <Form.Label>Item Name</Form.Label>
           <Form.Control
@@ -92,11 +91,9 @@ function AddItem () {
         <Button variant="primary" type="submit">
           Add
         </Button>
-
       </Form>
-
     </>
-  )
+  );
 }
 
 export default AddItem;
