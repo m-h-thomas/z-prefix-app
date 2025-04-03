@@ -114,6 +114,34 @@ app.delete('/items/:id', (req, res) => {
     });
 });
 
+app.patch('/item/:id', async (req, res) => {
+  const itemId = req.params.id;
+  const { item_name, description, quantity } = req.body;
+
+  try {
+      // Check if the item exists
+      const existingItem = await knex('item').where({ id: itemId }).first();
+      if (!existingItem) {
+          return res.status(404).json({ error: "Item not found" });
+      }
+
+      // Update the item in the database
+      const updatedItem = await knex('item')
+          .where({ id: itemId })
+          .update({
+              item_name,
+              description,
+              quantity
+          }, ['id', 'item_name', 'description', 'quantity', 'user_id']); // Returning updated data
+
+      res.json(updatedItem[0]); // Send back the updated item
+  } catch (error) {
+      console.error("Error updating item:", error);
+      res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Express server is listening on port:${PORT}.`)
 })

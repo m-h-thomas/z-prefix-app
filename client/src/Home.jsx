@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 
 function Home() {
   const navigate = useNavigate();
@@ -8,10 +9,11 @@ function Home() {
       <h1>Inventory Management System</h1>
 
       <div className="buttonContainer">
-        <button onClick={() => navigate('/login')}>Login</button>
-        <button onClick={() => navigate('/inventory')}>
+        <Button onClick={() => navigate('/login')}>Login</Button>
+        <Button onClick={() => navigate('/user_inventory')}>My Inventory</Button>
+        <Button onClick={() => navigate('/inventory')}>
           View Inventory without logging in
-        </button>
+        </Button>
       </div>
     </>
   );

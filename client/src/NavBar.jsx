@@ -1,5 +1,6 @@
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import Button from 'react-bootstrap/Button';
 import { Person, BoxArrowRight } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
@@ -22,7 +23,7 @@ export default function NavBar({ search, logouts }) {
         <div className="perm-nav">
           <div className="home-review-btns">
             <Link to="/">
-              <button>Home</button>
+              <Button>Home</Button>
             </Link>
           </div>
         </div>
