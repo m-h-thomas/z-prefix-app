@@ -4,8 +4,6 @@ const app = express();
 const PORT = 8081;
 const knex = require('knex')(require('../knexfile.js')['development']);
 const cors = require("cors");
-const router = express.Router();
-const argon2 = require("argon2");
 
 app.use(cors());
 app.use(express.json());
@@ -34,13 +32,11 @@ app.post('/users', async (req, res) => {
   const { first_name, last_name, username, password } = req.body;
 
   try {
-    // Check if the username already exists
     const existingUser = await knex('users').where({ username }).first();
     if (existingUser) {
       return res.status(400).json({ error: 'Username already exists. Choose another one.' });
     }
 
-    // Insert new user
     const [id] = await knex('users')
       .insert({ first_name, last_name, username, password })
       .returning('id');
@@ -91,7 +87,7 @@ app.post('/items', (req, res) => {
 })
 
 app.delete('/items/:id', (req, res) => {
-  const { id } = req.params; // Extract the id from the URL parameter
+  const { id } = req.params;
 
   knex('item')
     .where('id', id)
@@ -119,20 +115,18 @@ app.patch('/item/:id', async (req, res) => {
   const { item_name, description, quantity } = req.body;
 
   try {
-      // Check if the item exists
       const existingItem = await knex('item').where({ id: itemId }).first();
       if (!existingItem) {
           return res.status(404).json({ error: "Item not found" });
       }
 
-      // Update the item in the database
       const updatedItem = await knex('item')
           .where({ id: itemId })
           .update({
               item_name,
               description,
               quantity
-          }, ['id', 'item_name', 'description', 'quantity', 'user_id']); // Returning updated data
+          }, ['id', 'item_name', 'description', 'quantity', 'user_id']);
 
       res.json(updatedItem[0]); // Send back the updated item
   } catch (error) {

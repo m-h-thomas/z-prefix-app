@@ -1,8 +1,4 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import { Routes, Route, Link } from 'react-router-dom'
-import { useNavigate } from 'react-router'
 import './App.css'
 import Inventory from './Inventory'
 import Home from './Home'
@@ -12,7 +8,6 @@ import Login from './Login'
 import UserInventory from './UserInventory'
 
 function App() {
-  const navigate = useNavigate();
 
   return (
 

@@ -8,10 +8,10 @@ import NavBar from './NavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function UserInventory() {
-  const { user } = useAuth(); // Get logged-in user from AuthContext
-  const [inventory, setInventory] = useState([]); // Store items in state
-  const [users, setUsers] = useState([]); // Store users in state
-  const [editItemId, setEditItemId] = useState(null); // Track item being edited
+  const { user } = useAuth();
+  const [inventory, setInventory] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [editItemId, setEditItemId] = useState(null);
   const [editedItem, setEditedItem] = useState({ item_name: '', description: '', quantity: '' });
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function UserInventory() {
     fetchData();
   }, []);
 
-  // DELETE function
+
   const handleDelete = async (itemId) => {
     try {
       const response = await fetch(`http://localhost:8081/items/${itemId}`, {
@@ -50,18 +50,18 @@ function UserInventory() {
     }
   };
 
-  // EDIT: Enable edit mode for an item
+
   const handleEdit = (item) => {
     setEditItemId(item.id);
     setEditedItem({ item_name: item.item_name, description: item.description, quantity: item.quantity });
   };
 
-  // HANDLE CHANGE: Update local state while editing
+
   const handleChange = (e) => {
     setEditedItem({ ...editedItem, [e.target.name]: e.target.value });
   };
 
-  // SAVE: Send PATCH request to update the item
+
   const handleSave = async (itemId) => {
     try {
       const response = await fetch(`http://localhost:8081/item/${itemId}`, {
@@ -76,7 +76,7 @@ function UserInventory() {
         throw new Error('Failed to update item.');
       }
 
-      // Update UI after successful edit
+
       setInventory(inventory.map(item => (item.id === itemId ? { ...item, ...editedItem } : item)));
       setEditItemId(null); // Exit edit mode
     } catch (error) {
@@ -84,7 +84,7 @@ function UserInventory() {
     }
   };
 
-  // Filter inventory items to only show those belonging to the logged-in user
+
   const userInventory = user ? inventory.filter(item => item.user_id === user.id) : [];
 
 
@@ -111,7 +111,6 @@ function UserInventory() {
               <tbody>
                 {userInventory.map((item) => (
                   <tr key={item.id}>
-                    {/* Editable Fields */}
                     <td>
                       {editItemId === item.id ? (
                         <Form.Control
@@ -149,7 +148,6 @@ function UserInventory() {
                       )}
                     </td>
                     <td>
-                      {/* Edit and Save Buttons */}
                       {editItemId === item.id ? (
                         <Button variant="success" size="sm" onClick={() => handleSave(item.id)}>
                           Save
@@ -160,7 +158,6 @@ function UserInventory() {
                         </Button>
                       )}
                       {' '}
-                      {/* Delete Button */}
                       <Button variant="danger" size="sm" onClick={() => handleDelete(item.id)}>
                         Delete
                       </Button>
@@ -173,7 +170,6 @@ function UserInventory() {
             <p>No items found in your inventory.</p>
           )}
 
-          {/* Show the Add Item button if the user is logged in */}
           <Link to={'/addItem'}>
             <Button className="addBtn">
               Add Item

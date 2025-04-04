@@ -9,7 +9,7 @@ import { useAuth } from "./AuthContext"; // Import useAuth
 export default function NavBar({ search, logouts }) {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
-  const { user, logout } = useAuth(); // Get user from AuthContext
+  const { user, logout } = useAuth();
 
 
   const handleLogout = () => {

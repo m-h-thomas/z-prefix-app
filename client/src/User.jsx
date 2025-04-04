@@ -22,24 +22,17 @@ export default function User() {
     }));
   };
 
-  const handleProfilePicChange = (picUrl) => {
-    setFormData((prev) => ({
-      ...prev,
-      image: picUrl,
-    }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.password) {
-      //alert("Current password is required to update profile.");
       return;
     }
 
     try {
       const response = await fetch(
-        `http://localhost:3001/users/${user.id}`,
+        `http://localhost:8081/users/${user.id}`,
         {
           method: "PATCH",
           headers: {
@@ -51,8 +44,7 @@ export default function User() {
 
       const data = await response.json();
       if (response.ok) {
-        login(data); // Update user data in AuthContext
-        // alert("Profile updated successfully!");
+        login(data);
         navigate(`/`);
       } else {
         console.error("Error:", data.error);
@@ -96,51 +88,7 @@ export default function User() {
                 onChange={handleChange}
               />
             </Form.Group>{" "}
-            <Form.Group className="mb-3">
-              <Form.Check
-                type="checkbox"
-                name="military"
-                label="Are you in the military?"
-                checked={formData.military}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Label>Select Profile Picture</Form.Label>
-            <Row>
-              {[...Array(7)].map((_, index) => {
-                const imgUrl = `http://localhost:3001/images/profile/${
-                  index + 1
-                }.jpg`;
-                return (
-                  <Col
-                    key={index}
-                    xs={6}
-                    md={4}
-                    className="profile_Pic"
-                  >
-                    <Image
-                      className={`profile_Pic ${
-                        formData.image === imgUrl
-                          ? "selected"
-                          : ""
-                      }`}
-                      src={imgUrl}
-                      roundedCircle
-                      onClick={() =>
-                        handleProfilePicChange(imgUrl)
-                      }
-                      style={{
-                        cursor: "pointer",
-                        border:
-                          formData.image === imgUrl
-                            ? "3px solid blue"
-                            : "none",
-                      }}
-                    />
-                  </Col>
-                );
-              })}
-            </Row>
+
             <Form.Group className="mb-3">
               <Form.Label>Current Password</Form.Label>
               <Form.Control

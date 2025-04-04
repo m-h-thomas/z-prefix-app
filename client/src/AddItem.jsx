@@ -2,35 +2,34 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useAuth } from './AuthContext'; // Assuming you have a context for the authenticated user
+import { useAuth } from './AuthContext';
 
 function AddItem () {
   const navigate = useNavigate();
-  const { user } = useAuth();  // Get the logged-in user from context
-  const [itemName, setItemName] = useState("");
+  const { user } = useAuth();
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
 
-  // If no user is logged in, redirect the user or show an error
+
   if (!user) {
     navigate("/login");
-    return null; // Or show an error message
+    return null;
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validate quantity
+
     if (!quantity || quantity <= 0) {
       alert("Please enter a valid quantity.");
       return;
     }
 
     const itemData = {
-      user_id: user.id,  // Use logged-in user's ID
+      user_id: user.id,
       item_name: itemName,
       description: description.trim(),
-      quantity: Number(quantity),  // Ensure quantity is a number
+      quantity: Number(quantity),
     };
 
     try {
