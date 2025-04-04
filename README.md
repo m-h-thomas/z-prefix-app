@@ -11,25 +11,25 @@ Use your terminal to ```cd``` into the server directory
 
 It should look like this:
 
-"DB_CONNECTION_STRING=`postgres://{postgres username}:{postgres password}@localhost:{database port}/{database name}` 
+"DB_CONNECTION_STRING=`postgres://{postgres username}:{postgres password}@localhost:{database port}/{database name}`
 
-replace the items in the curly brackets with your information
+replace the curly brackets with your information
 
 - Step 4: Migrate and seed database
 
-While still in the server directory, 
+While still in the server directory,
 
-run ```npx knex migrate:latest``` 
+run ```npx knex migrate:latest```
 
 then ```npx knex seed:run```
 
 - Step 5: Start the Express server
-  
+
 Run ```npm start```
 
 - Step 6: Get client side up and running
 
-Use your terminal to cd into the client directory
+Use your terminal to ```cd``` into the client directory
 
 Run ```npm install``` to install vite and other applicable node modules
 
